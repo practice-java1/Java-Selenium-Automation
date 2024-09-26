@@ -1,9 +1,9 @@
 package pageObjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class HomePage extends PageBase{
     @FindBy(xpath="//*[@id='menu-item-126']")
@@ -11,10 +11,10 @@ public class HomePage extends PageBase{
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public String getLogOutButtonText() {
-        WebElement logOutButtonElement = driver.findElement((By) logOutButton);
-       return logOutButtonElement.getText();
+       return logOutButton.getText();
     }
 }
