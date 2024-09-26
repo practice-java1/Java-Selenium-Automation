@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import utils.TestBase;
 
@@ -62,6 +63,115 @@ public class InterrogationTests extends TestBase {
         WebElement chicSelectsSection = driver.findElement(By.xpath("//*[contains(text(), 'Chic Selects')]"));
         chicSelectsSection.click();
 
+        Thread.sleep(5000);
         WebElement firstProduct = driver.findElement(By.id("21034131"));
+        firstProduct.click();
+
+        Thread.sleep(5000);
+        log.info("Clicking on the 'M' size button");
+        WebElement sizeButton = driver.findElement(By.id("size_37288529"));
+        sizeButton.click();
+
+        Thread.sleep(5000);
+        log.info("Clicking on the 'Add to Cart' button");
+        WebElement addToCartButoon = driver.findElement(By.xpath("//*[contains(text(), 'ADD TO CART')]"));
+        addToCartButoon.click();
+
+        Thread.sleep(5000);
+        log.info("Asserting that we are on the correct page");
+        Assert.assertEquals("The Urls are different!", "https://www.limeroad.com/shopping_cart?src_id=merge_feed_story__2",
+                driver.getCurrentUrl());
+
+        log.info("Asserting that the product name is correct ");
+        WebElement productName = driver.findElement(By.xpath("//*[contains(text(), 'women round neck sleeveless layered kurta')]"));
+        Assert.assertEquals("The product name is different", "women round neck sleeveless layered kurta", productName.getText());
+
+        log.info("Asserting that the displayed price is the correct");
+        WebElement productPrice = driver.findElement(By.xpath("//*[contains(text(), '₹ 1939')]"));
+        Assert.assertEquals("The price is different", "₹ 1939", productPrice.getText());
+
+        log.info("Clicking on 'BUY NOW' button");
+        WebElement buyNow = driver.findElement(By.xpath("//*[contains(text(), 'BUY NOW')]"));
+        buyNow.click();
+
+        Thread.sleep(3000);
+        log.info("Asserting that the notification form is displayed");
+        WebElement notificationForm = driver.findElement(By.id("signinnewForm"));
+        Assert.assertTrue("The notification form is not displayed", notificationForm.isDisplayed());
+
+        Thread.sleep(3000);
+        WebElement expectedText = driver.findElement(By.xpath("//*[contains(text(), 'We will send you an')]"));
+        Assert.assertTrue("The expected text is not found in the notification form", expectedText.isDisplayed());
+
+    }
+
+    @Test
+    public void checkIfTheLogoIsDisplayedOnHomePage() {
+        log.info("Getting the application page");
+        driver.get("https://www.limeroad.com/");
+
+        WebElement womenButton = driver.findElement(By.id("shopWomen"));
+        womenButton.click();
+
+        log.info("Asserting that logo element is displayed on every page");
+        WebElement logoElement = driver.findElement(By.id("DeskLogo"));
+        Assert.assertTrue("The logo element is not displayed", logoElement.isDisplayed());
+    }
+
+    @Test
+    public void checkTheTitleOfFirstPage() {
+        log.info("Getting the application page");
+        driver.get("https://www.limeroad.com/");
+
+        WebElement womenButton = driver.findElement(By.id("shopWomen"));
+        womenButton.click();
+
+        log.info("Asserting that first page title is 'Online Shopping Site - Shop Men & Women Fashion Online in India'");
+        String actualTitle = driver.getTitle();
+
+        if (actualTitle.equals("Online Shopping Site - Shop Men & Women Fashion Online in India")) {
+            log.info("Test passed");
+        } else {
+            log.info("Test failed");
+        }
+
+    }
+
+    @Test
+    public void checkProductSearchFunctionality() throws InterruptedException {
+        log.info("Getting the application page");
+        driver.get("https://www.limeroad.com/");
+
+        WebElement womenButton = driver.findElement(By.id("shopWomen"));
+        womenButton.click();
+
+        WebElement searchButton = driver.findElement(By.id("deskSearch"));
+        searchButton.click();
+
+        log.info("Searching for products");
+
+        WebElement searchBar = driver.findElement(By.id("srcInpu"));
+        searchBar.click();
+
+
+
+        log.info("Searching for specific product using product code");
+          searchBar.sendKeys("21313885");
+          searchBar.sendKeys(Keys.ENTER);
+
+          Thread.sleep(3000);
+
+
+        WebElement product = driver.findElement(By.xpath("//a[@href='/blue-rayon-cottinfab-p21313885?imgIdx=0&src_id=fromsearch__0']"));
+        Thread.sleep(3000);
+        product.click();
+
+
+
+        log.info("Asserting that is displayed the correct page");
+        Assert.assertEquals("The Urls are different!", "https://www.limeroad.com/search/21313885",
+                driver.getCurrentUrl());
+
+
     }
 }

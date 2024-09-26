@@ -2,9 +2,13 @@ package utils;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.util.logging.Logger;
 
 public class TestBase {
 
@@ -20,7 +24,10 @@ public class TestBase {
 
     @BeforeClass // @BeforeTest()
     public static void beforeMethodImplementation() {
-        /*
+
+        Logger log = Logger.getLogger(String.valueOf(TestBase.class));
+
+          /*
         examples:
          createAccount();
          login();
