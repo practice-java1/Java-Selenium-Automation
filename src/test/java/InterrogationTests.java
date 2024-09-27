@@ -3,8 +3,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.TestBase;
 
+import java.time.Duration;
 import java.util.logging.Logger;
 
 public class InterrogationTests extends TestBase {
@@ -150,28 +153,24 @@ public class InterrogationTests extends TestBase {
 
         log.info("Searching for products");
 
-        WebElement searchBar = driver.findElement(By.id("srcInpu"));
+        WebElement searchBar = driver.findElement(By.xpath("//*[@id='srcInpu']"));
         searchBar.click();
 
 
-
         log.info("Searching for specific product using product code");
-          searchBar.sendKeys("21313885");
-          searchBar.sendKeys(Keys.ENTER);
+        searchBar.sendKeys("21313885");
+        searchBar.sendKeys(Keys.ENTER);
 
-          Thread.sleep(3000);
-
-
-        WebElement product = driver.findElement(By.xpath("//a[@href='/blue-rayon-cottinfab-p21313885?imgIdx=0&src_id=fromsearch__0']"));
         Thread.sleep(3000);
-        product.click();
 
+        WebElement product = driver.findElement(By.xpath("//img[@id='21313885']"));
 
+        log.info("Using an explicit wait that waits until the button becomes clickable.");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(product));
 
         log.info("Asserting that is displayed the correct page");
         Assert.assertEquals("The Urls are different!", "https://www.limeroad.com/search/21313885",
                 driver.getCurrentUrl());
-
-
     }
 }
