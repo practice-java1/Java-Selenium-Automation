@@ -27,4 +27,19 @@ public class LogInTests extends TestBase {
         HomePage homePage = new HomePage(driver);
         Assert.assertEquals("Log out button is not available", "Logout", homePage.getLogOutButtonText());
     }
+
+    @Test
+    public void logInWithInvalidCredentials() throws InterruptedException {
+
+        driver.get("https://testare-manuala.locdejoacapentruitsti.com/blog/login/");
+
+        log.info("Entering invalid credentials");
+
+        logInPage.enterUserName("$%^$325");
+        logInPage.enterPassword("1234");
+        logInPage.clickLoginButton();
+        Thread.sleep(3000);
+
+        Assert.assertEquals("Error message is not displayed", "ERROR: Invalid username or email. Lost your password?", logInPage.displayErrorMessage());
+    }
 }

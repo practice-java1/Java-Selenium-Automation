@@ -17,6 +17,9 @@ public class LogInPage extends PageBase{
     @FindBy(id="wppb-submit")
     WebElement logInButton;
 
+    @FindBy(xpath="//*[@class='wppb-error']")
+    WebElement errorMessage;
+
     public LogInPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -34,4 +37,10 @@ public class LogInPage extends PageBase{
     public void clickLoginButton() {
         logInButton.click();
     }
+
+    public String displayErrorMessage(){
+        return errorMessage.getText();
+    }
+
+
 }
