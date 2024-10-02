@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.TestBase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -46,12 +47,42 @@ public class DropDownDemo extends TestBase {
         Assert.assertEquals("Zimbabwe is not part of the list", "Zimbabwe",
                 dropDownOptions.get(dropDownOptions.size() - 1).getText());
 
+
         log.info("Checking that there are no countries starting with x");
+        List<WebElement> listOfCountries = countryDropDown.getOptions();
+        boolean countryStartsWithX = false;
+
+        for (WebElement currentCountryfromList : listOfCountries) {
+            String countryName = currentCountryfromList.getText();
+
+            if (countryName.startsWith("X")) {
+                countryStartsWithX = true;
+                break;
+            }
+        }
+
+        Assert.assertFalse("There is at least one country that starts with 'X'", countryStartsWithX);
+
+
         log.info("Checking if the list contains countries with text 'nce'");
+        List<WebElement> listOfCountriesFromTheDropDown = countryDropDown.getOptions();
+        List<String> countriesThatContain_nce = new ArrayList<>();
+
+
+        for (WebElement currentCountryValue : listOfCountriesFromTheDropDown) {
+            String countryName = currentCountryValue.getText();
+
+            if (countryName.contains("nce")) {
+                countriesThatContain_nce.add(countryName);
+            }
+        }
+        log.info("Countries containing 'nce': " + countriesThatContain_nce);
+        Assert.assertFalse("No country contains the text 'nce'", countriesThatContain_nce.isEmpty());
     }
 
+
     @Test
-    public void multipleDropDownDemo(){
+    public void multipleDropDownDemo() {
         driver.get("https://output.jsbin.com/osebed/2");
         WebElement dropDownFruitsElement = driver.findElement(By.id("fruits"));
 
@@ -59,9 +90,10 @@ public class DropDownDemo extends TestBase {
         fruitsDD.deselectAll();
         fruitsDD.selectByValue("banana");
         fruitsDD.selectByIndex(1);
+
         List<WebElement> selectedFruits = fruitsDD.getAllSelectedOptions();
 
-        for(WebElement fruit : selectedFruits) {
+        for (WebElement fruit : selectedFruits) {
             log.info("The selected fruit is " + fruit.getText());
         }
 
@@ -71,3 +103,4 @@ public class DropDownDemo extends TestBase {
         fruitsDD.deselectAll();
     }
 }
+

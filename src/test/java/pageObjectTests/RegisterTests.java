@@ -1,5 +1,6 @@
 package pageObjectTests;
 
+import enums.RegisterFields;
 import org.junit.Assert;
 import org.junit.Test;
 import pageObjects.RegisterPage;
@@ -18,7 +19,12 @@ public class RegisterTests extends TestBase {
         driver.get("https://testare-manuala.locdejoacapentruitsti.com/blog/register/");
 
         log.info("Entering the required fields");
-        registerPage.enterRequiredFields("Alina1234", "alina1234@gmail.com", "Alina12345", "Alina12345");
+        registerPage.enterRequiredFields(
+                RegisterFields.USERNAME.getValue(),
+                RegisterFields.EMAIL.getValue(),
+                RegisterFields.PASSWORD.getValue(),
+                RegisterFields.REPEAT_PASSWORD.getValue()
+        );
 
         log.info("Clicking on the Register button");
         registerPage.clickRegisterButton();
@@ -26,8 +32,12 @@ public class RegisterTests extends TestBase {
         RegisterPage registerPage1 = new RegisterPage(driver);
 
         log.info("Verifying the success message");
-        //log.info(registerPage.getUserName());
-        Assert.assertEquals("The account has not been successfully created!", "The account Ioana11121 has been successfully created!", registerPage.getSuccessMessage());
+        //Verificare a mesajului de succes folosind username-ul din enum
+        Assert.assertEquals(
+                "The account has not been successfully created!",
+                "The account " + RegisterFields.USERNAME.getValue() + " has been successfully created!",
+                registerPage.getSuccessMessage()
+        );
 
 
     }
