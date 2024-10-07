@@ -21,7 +21,7 @@ public class DropDownDemo extends TestBase {
         WebElement countryElement = driver.findElement(By.name("country"));
         Select countryDropDown = new Select(countryElement);
 
-        log.info("Asserting that de default value is 'Country...'");
+        log.info("Asserting that the default value is 'Country...'");
         String defaultValue = countryDropDown.getFirstSelectedOption().getText();
 
         Assert.assertEquals("The default value is not correct", "Country...", defaultValue);
