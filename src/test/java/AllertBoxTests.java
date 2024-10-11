@@ -31,7 +31,7 @@ public class AllertBoxTests extends TestBase {
 
     // TEMA
     @Test
-    public void confirmTest() {
+    public void confirmTest() throws InterruptedException {
         driver.get("https://chandanachaitanya.github.io/selenium-practice-site/?languages=Java&enterText=");
 
         WebElement confirmButton = driver.findElement(By.id("confirmBox"));
@@ -43,7 +43,8 @@ public class AllertBoxTests extends TestBase {
         Assert.assertEquals("The text inside popup is wrong", expectedMessage, actualMessage);
         confirmPopUp.accept();
 
-
+        //confirmCancel test
+        Thread.sleep(3000);
         confirmButton.click();
         Alert confirmPopUpButton = driver.switchTo().alert();
         actualMessage = confirmPopUpButton.getText();
